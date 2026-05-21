@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
     
-    if (VALID_LOGINS.includes(email.toLowerCase().trim()) && password === SHARED_PASSWORD) {
+    if (VALID_LOGINS.includes(email.toLowerCase().trim()) && password.toLowerCase().trim() === SHARED_PASSWORD) {
       const response = NextResponse.json({ success: true });
       response.cookies.set('auth', 'true', {
         httpOnly: true,
