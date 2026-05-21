@@ -112,7 +112,6 @@ export default function Home() {
       'ID': req.id,
       'Программа': req.programName,
       'Дата программы': req.programDate ? format(new Date(req.programDate), 'dd.MM.yyyy') : '',
-      'Дней': req.days,
       'Тип клиента': req.clientType,
       'Дата создания': format(new Date(req.createdAt), 'dd.MM.yyyy HH:mm'),
       'ФИО клиента': req.fullName,
