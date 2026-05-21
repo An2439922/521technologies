@@ -36,7 +36,7 @@ export default function RootLayout({
           pointerEvents: 'none', 
           opacity: 0.7 
         }}>
-          создано 521Technologies
+          создано 521технолОджи
         </div>
       </body>
     </html>
