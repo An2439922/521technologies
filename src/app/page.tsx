@@ -362,14 +362,7 @@ export default function Home() {
               </div>
 
               <div className="form-row">
-                <div style={{ flex: 1 }}>
-                  <label className="form-label">Тип заявки</label>
-                  <select className="form-select" value={formData.clientType} onChange={e => setFormData({...formData, clientType: e.target.value})}>
-                    <option>Взрослые</option>
-                    <option>Школьники</option>
-                  </select>
-                </div>
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 2 }}>
                   <label className="form-label">Регион поездки</label>
                   <input 
                     required 
@@ -384,10 +377,17 @@ export default function Home() {
                   </datalist>
                 </div>
                 <div style={{ flex: 1 }}>
-                  <label className="form-label">Людей (осн. + бесплатные)</label>
+                  <label className="form-label">Тип заявки</label>
+                  <select className="form-select" value={formData.clientType} onChange={e => setFormData({...formData, clientType: e.target.value})}>
+                    <option>Взрослые</option>
+                    <option>Школьники</option>
+                  </select>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Люди (осн+доп)</label>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <input required type="number" min="1" className="form-input" placeholder="Осн." title="Основные" value={formData.peopleCount} onChange={e => setFormData({...formData, peopleCount: parseInt(e.target.value) || 0})} />
-                    <input type="number" min="0" className="form-input" placeholder="+ Беспл." title="Бесплатные" value={formData.freePeople} onChange={e => setFormData({...formData, freePeople: e.target.value ? parseInt(e.target.value) : ''})} />
+                    <input type="number" min="0" className="form-input" placeholder="+ Доп." title="Бесплатные" value={formData.freePeople} onChange={e => setFormData({...formData, freePeople: e.target.value ? parseInt(e.target.value) : ''})} />
                   </div>
                 </div>
               </div>
