@@ -65,7 +65,7 @@ export default function Home() {
     peopleCount: 1,
     freePeople: '' as number | string,
     days: '' as number | string,
-    region: 'Москва',
+    region: '',
     status: 'Новая',
     notes: '',
   });
@@ -127,7 +127,7 @@ export default function Home() {
       peopleCount: 1,
       freePeople: '',
       days: '',
-      region: 'Москва',
+      region: '',
       status: 'Новая',
       notes: '',
     });
