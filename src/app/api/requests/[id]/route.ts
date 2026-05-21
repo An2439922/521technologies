@@ -21,6 +21,12 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
         freePeople: data.freePeople !== undefined ? Number(data.freePeople) : undefined,
         days: data.days ? Number(data.days) : undefined,
         region: data.region,
+        transportCost: data.transportCost !== undefined ? Number(data.transportCost) : undefined,
+        accommodationCost: data.accommodationCost !== undefined ? Number(data.accommodationCost) : undefined,
+        guideCost: data.guideCost !== undefined ? Number(data.guideCost) : undefined,
+        excursionCost: data.excursionCost !== undefined ? Number(data.excursionCost) : undefined,
+        mealsCost: data.mealsCost !== undefined ? Number(data.mealsCost) : undefined,
+        totalCost: data.totalCost !== undefined ? Number(data.totalCost) : undefined,
         status: data.status,
         notes: data.notes,
       }

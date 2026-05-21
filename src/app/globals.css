@@ -179,7 +179,7 @@ tr:hover td {
   background: var(--surface);
   border-radius: 16px;
   width: 100%;
-  max-width: 500px;
+  max-width: 75vw;
   padding: 2rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);

@@ -42,6 +42,12 @@ type RequestData = {
   freePeople: number;
   days: number;
   region: string;
+  transportCost: number;
+  accommodationCost: number;
+  guideCost: number;
+  excursionCost: number;
+  mealsCost: number;
+  totalCost: number;
   status: string;
   notes: string | null;
   createdAt: string;
@@ -66,9 +72,22 @@ export default function Home() {
     freePeople: '' as number | string,
     days: '' as number | string,
     region: '',
+    transportCost: '' as number | string,
+    accommodationCost: '' as number | string,
+    guideCost: '' as number | string,
+    excursionCost: '' as number | string,
+    mealsCost: '' as number | string,
+    totalCost: 0,
     status: 'Новая',
     notes: '',
   });
+
+  const handleCostChange = (field: string, value: string) => {
+    const parsed = parseInt(value) || 0;
+    const newForm = { ...formData, [field]: parsed || '' };
+    newForm.totalCost = (Number(newForm.transportCost) || 0) + (Number(newForm.accommodationCost) || 0) + (Number(newForm.guideCost) || 0) + (Number(newForm.excursionCost) || 0) + (Number(newForm.mealsCost) || 0);
+    setFormData(newForm);
+  };
 
   const fetchRequests = async () => {
     try {
@@ -101,8 +120,14 @@ export default function Home() {
       'Телефон': req.phone,
       'Email': req.email || '',
       'Кол-во человек': req.peopleCount,
-      'Бесплатные': req.freePeople || 0,
-      'Документов': req.documents?.length || 0,
+      'Бесплатных': req.freePeople,
+      'Дней': req.days,
+      'Транспорт': req.transportCost || 0,
+      'Размещение': req.accommodationCost || 0,
+      'Гид': req.guideCost || 0,
+      'Экскурсии': req.excursionCost || 0,
+      'Питание': req.mealsCost || 0,
+      'Итоговая стоимость': req.totalCost || 0,
       'Статус': req.status,
       'Комментарий': req.notes || ''
     }));
@@ -128,6 +153,12 @@ export default function Home() {
       freePeople: '',
       days: '',
       region: '',
+      transportCost: '',
+      accommodationCost: '',
+      guideCost: '',
+      excursionCost: '',
+      mealsCost: '',
+      totalCost: 0,
       status: 'Новая',
       notes: '',
     });
@@ -146,7 +177,13 @@ export default function Home() {
       peopleCount: req.peopleCount,
       freePeople: req.freePeople || '',
       days: req.days || '',
-      region: req.region || 'Москва',
+      region: req.region || '',
+      transportCost: req.transportCost || '',
+      accommodationCost: req.accommodationCost || '',
+      guideCost: req.guideCost || '',
+      excursionCost: req.excursionCost || '',
+      mealsCost: req.mealsCost || '',
+      totalCost: req.totalCost || 0,
       status: req.status,
       notes: req.notes || '',
     });
@@ -275,7 +312,8 @@ export default function Home() {
                 <th>Тип</th>
                 <th>Клиент</th>
                 <th>Телефон</th>
-                <th>Email</th>
+                <th>Итого</th>
+                <th>Статус</th>
                 <th>Людей</th>
                 <th>Файлы</th>
                 <th>Статус</th>
@@ -294,7 +332,12 @@ export default function Home() {
                   <td>{req.clientType}</td>
                   <td>{req.fullName}</td>
                   <td>{req.phone}</td>
-                  <td>{req.email || '-'}</td>
+                  <td>{req.totalCost ? `${req.totalCost} ₽` : '-'}</td>
+                  <td>
+                    <span className={`status-badge ${getStatusClass(req.status)}`}>
+                      {req.status}
+                    </span>
+                  </td>
                   <td>
                     {req.peopleCount} 
                     {req.freePeople > 0 && <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: '4px' }}>+{req.freePeople}</span>}
@@ -325,7 +368,7 @@ export default function Home() {
               ))}
               {requests.length === 0 && (
                 <tr>
-                  <td colSpan={13} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                  <td colSpan={15} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                     Заявок пока нет. Нажмите "Новая заявка", чтобы добавить первую.
                   </td>
                 </tr>
@@ -400,11 +443,43 @@ export default function Home() {
               <div className="form-row">
                 <div style={{ flex: 1 }}>
                   <label className="form-label">Телефон</label>
-                  <input required type="tel" className="form-input" placeholder="+7..." value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                  <input required className="form-input" placeholder="+7..." value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <label className="form-label">Email (необязательно)</label>
-                  <input type="email" name="client_email" autoComplete="new-password" placeholder="email@example.com" className="form-input" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                  <input type="email" className="form-input" placeholder="mail@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                </div>
+              </div>
+
+              <h3 style={{ marginTop: '1.5rem', marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Стоимость (₽)</h3>
+              
+              <div className="form-row">
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Транспорт</label>
+                  <input type="number" min="0" className="form-input" value={formData.transportCost} onChange={e => handleCostChange('transportCost', e.target.value)} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Размещение</label>
+                  <input type="number" min="0" className="form-input" value={formData.accommodationCost} onChange={e => handleCostChange('accommodationCost', e.target.value)} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Гид</label>
+                  <input type="number" min="0" className="form-input" value={formData.guideCost} onChange={e => handleCostChange('guideCost', e.target.value)} />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Экскурсии</label>
+                  <input type="number" min="0" className="form-input" value={formData.excursionCost} onChange={e => handleCostChange('excursionCost', e.target.value)} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Питание</label>
+                  <input type="number" min="0" className="form-input" value={formData.mealsCost} onChange={e => handleCostChange('mealsCost', e.target.value)} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Итоговая стоимость</label>
+                  <input type="number" className="form-input" disabled style={{ background: '#f9fafb', fontWeight: 'bold' }} value={formData.totalCost} />
                 </div>
               </div>
 

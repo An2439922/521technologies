@@ -22,6 +22,12 @@ model Request {
   days        Int      @default(1)
   region      String   @default("Москва")
   status      String   @default("Новая")
+  transportCost     Int      @default(0)
+  accommodationCost Int      @default(0)
+  guideCost         Int      @default(0)
+  excursionCost     Int      @default(0)
+  mealsCost         Int      @default(0)
+  totalCost         Int      @default(0)
   notes       String?
   documents   Document[]
   createdAt   DateTime @default(now())

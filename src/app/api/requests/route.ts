@@ -29,6 +29,12 @@ export async function POST(req: Request) {
         freePeople: data.freePeople ? Number(data.freePeople) : 0,
         days: data.days ? Number(data.days) : 1,
         region: data.region || 'Москва',
+        transportCost: data.transportCost ? Number(data.transportCost) : 0,
+        accommodationCost: data.accommodationCost ? Number(data.accommodationCost) : 0,
+        guideCost: data.guideCost ? Number(data.guideCost) : 0,
+        excursionCost: data.excursionCost ? Number(data.excursionCost) : 0,
+        mealsCost: data.mealsCost ? Number(data.mealsCost) : 0,
+        totalCost: data.totalCost ? Number(data.totalCost) : 0,
         notes: data.notes || null,
       }
     });
