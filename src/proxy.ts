@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 export function proxy(request: NextRequest) {
   const isAuthPage = request.nextUrl.pathname.startsWith('/login');
   
-  const token = request.cookies.get('auth-token')?.value;
+  const token = request.cookies.get('auth')?.value;
 
   if (!token && !isAuthPage && !request.nextUrl.pathname.startsWith('/api/auth')) {
     return NextResponse.redirect(new URL('/login', request.url));
