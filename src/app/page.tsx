@@ -225,7 +225,7 @@ export default function Home() {
     <div className="container">
       <div className="header">
         <h1>Учет заявок</h1>
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div className="header-actions">
           <button onClick={handleExport} className="btn btn-outline">
             <Download size={18} /> Экспорт в Excel
           </button>
@@ -321,7 +321,7 @@ export default function Home() {
             </div>
             
             <form onSubmit={handleSubmit}>
-              <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <div className="form-row">
                 <div style={{ flex: 2 }}>
                   <label className="form-label">Название программы/тура</label>
                   <input required className="form-input" value={formData.programName} onChange={e => setFormData({...formData, programName: e.target.value})} />
@@ -336,7 +336,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <div className="form-row">
                 <div style={{ flex: 1 }}>
                   <label className="form-label">Тип заявки</label>
                   <select className="form-select" value={formData.clientType} onChange={e => setFormData({...formData, clientType: e.target.value})}>
@@ -358,7 +358,7 @@ export default function Home() {
                 <input required className="form-input" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
               </div>
               
-              <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <div className="form-row">
                 <div style={{ flex: 1 }}>
                   <label className="form-label">Телефон</label>
                   <input required type="tel" className="form-input" placeholder="+7..." value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
@@ -418,7 +418,7 @@ export default function Home() {
                 </div>
               )}
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
+              <div className="form-row" style={{ justifyContent: 'flex-end', marginTop: '2rem' }}>
                 <button type="button" onClick={() => setIsModalOpen(false)} className="btn btn-outline">Отмена</button>
                 <button type="submit" className="btn btn-primary">
                   {editingRequest ? 'Сохранить изменения' : 'Создать заявку'}
