@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         peopleCount: Number(data.peopleCount),
         freePeople: data.freePeople ? Number(data.freePeople) : 0,
         days: data.days ? Number(data.days) : 1,
+        region: data.region || 'Москва',
         notes: data.notes || null,
       }
     });

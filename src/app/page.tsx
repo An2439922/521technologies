@@ -5,6 +5,24 @@ import { Download, Plus, Pencil, Trash2, X, FileText, Upload, LogOut } from 'luc
 import * as xlsx from 'xlsx';
 import { format } from 'date-fns';
 
+const RUSSIAN_REGIONS = [
+  "Адыгея", "Алтай (Республика)", "Алтайский край", "Амурская область", "Архангельская область", "Астраханская область",
+  "Башкортостан", "Белгородская область", "Брянская область", "Бурятия", "Владимирская область", "Волгоградская область",
+  "Вологодская область", "Воронежская область", "Дагестан", "ДНР", "Еврейская АО", "Забайкальский край", "Запорожская область",
+  "Ивановская область", "Ингушетия", "Иркутская область", "Кабардино-Балкария", "Калининградская область", "Калмыкия",
+  "Калужская область", "Камчатский край", "Карачаево-Черкесия", "Карелия", "Кемеровская область", "Кировская область",
+  "Коми", "Костромская область", "Краснодарский край", "Красноярский край", "Крым", "Курганская область", "Курская область",
+  "Ленинградская область", "Липецкая область", "ЛНР", "Магаданская область", "Марий Эл", "Мордовия", "Москва",
+  "Московская область", "Мурманская область", "Ненецкий АО", "Нижегородская область", "Новгородская область",
+  "Новосибирская область", "Омская область", "Оренбургская область", "Орловская область", "Пензенская область",
+  "Пермский край", "Приморский край", "Псковская область", "Ростовская область", "Рязанская область", "Самарская область",
+  "Санкт-Петербург", "Саратовская область", "Саха (Якутия)", "Сахалинская область", "Свердловская область", "Севастополь",
+  "Северная Осетия — Алания", "Смоленская область", "Ставропольский край", "Тамбовская область", "Татарстан", "Тверская область",
+  "Томская область", "Тульская область", "Тыва", "Тюменская область", "Удмуртия", "Ульяновская область", "Хабаровский край",
+  "Хакасия", "Ханты-Мансийский АО", "Херсонская область", "Челябинская область", "Чечня", "Чувашия", "Чукотский АО",
+  "Ямало-Ненецкий АО", "Ярославская область"
+].sort((a, b) => a.localeCompare(b, 'ru'));
+
 type DocumentData = {
   id: number;
   name: string;
@@ -23,6 +41,7 @@ type RequestData = {
   peopleCount: number;
   freePeople: number;
   days: number;
+  region: string;
   status: string;
   notes: string | null;
   createdAt: string;
@@ -46,6 +65,7 @@ export default function Home() {
     peopleCount: 1,
     freePeople: '' as number | string,
     days: '' as number | string,
+    region: 'Москва',
     status: 'Новая',
     notes: '',
   });
@@ -77,6 +97,7 @@ export default function Home() {
       'Тип клиента': req.clientType,
       'Дата создания': format(new Date(req.createdAt), 'dd.MM.yyyy HH:mm'),
       'ФИО клиента': req.fullName,
+      'Регион поездки': req.region || '-',
       'Телефон': req.phone,
       'Email': req.email || '',
       'Кол-во человек': req.peopleCount,
@@ -106,6 +127,7 @@ export default function Home() {
       peopleCount: 1,
       freePeople: '',
       days: '',
+      region: 'Москва',
       status: 'Новая',
       notes: '',
     });
@@ -124,6 +146,7 @@ export default function Home() {
       peopleCount: req.peopleCount,
       freePeople: req.freePeople || '',
       days: req.days || '',
+      region: req.region || 'Москва',
       status: req.status,
       notes: req.notes || '',
     });
@@ -248,6 +271,7 @@ export default function Home() {
                 <th>Программа</th>
                 <th>Дата старта</th>
                 <th>Дней</th>
+                <th>Регион</th>
                 <th>Тип</th>
                 <th>Клиент</th>
                 <th>Телефон</th>
@@ -266,6 +290,7 @@ export default function Home() {
                   <td>{req.programName}</td>
                   <td>{req.programDate ? format(new Date(req.programDate), 'dd.MM.yyyy') : '-'}</td>
                   <td>{req.days}</td>
+                  <td>{req.region || '-'}</td>
                   <td>{req.clientType}</td>
                   <td>{req.fullName}</td>
                   <td>{req.phone}</td>
@@ -343,6 +368,20 @@ export default function Home() {
                     <option>Взрослые</option>
                     <option>Школьники</option>
                   </select>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">Регион поездки</label>
+                  <input 
+                    required 
+                    list="regions" 
+                    className="form-input" 
+                    placeholder="Начните вводить..." 
+                    value={formData.region} 
+                    onChange={e => setFormData({...formData, region: e.target.value})} 
+                  />
+                  <datalist id="regions">
+                    {RUSSIAN_REGIONS.map(r => <option key={r} value={r} />)}
+                  </datalist>
                 </div>
                 <div style={{ flex: 1 }}>
                   <label className="form-label">Людей (осн. + бесплатные)</label>

@@ -20,6 +20,7 @@ model Request {
   peopleCount Int
   freePeople  Int      @default(0)
   days        Int      @default(1)
+  region      String   @default("Москва")
   status      String   @default("Новая")
   notes       String?
   documents   Document[]

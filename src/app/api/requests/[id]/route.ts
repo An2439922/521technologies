@@ -20,6 +20,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
         peopleCount: data.peopleCount ? Number(data.peopleCount) : undefined,
         freePeople: data.freePeople !== undefined ? Number(data.freePeople) : undefined,
         days: data.days ? Number(data.days) : undefined,
+        region: data.region,
         status: data.status,
         notes: data.notes,
       }
