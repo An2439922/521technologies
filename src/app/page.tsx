@@ -313,7 +313,6 @@ export default function Home() {
                 <th>Клиент</th>
                 <th>Телефон</th>
                 <th>Итого</th>
-                <th>Статус</th>
                 <th>Людей</th>
                 <th>Файлы</th>
                 <th>Статус</th>
@@ -333,11 +332,6 @@ export default function Home() {
                   <td>{req.fullName}</td>
                   <td>{req.phone}</td>
                   <td>{req.totalCost ? `${req.totalCost} ₽` : '-'}</td>
-                  <td>
-                    <span className={`status-badge ${getStatusClass(req.status)}`}>
-                      {req.status}
-                    </span>
-                  </td>
                   <td>
                     {req.peopleCount} 
                     {req.freePeople > 0 && <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', marginLeft: '4px' }}>+{req.freePeople}</span>}
