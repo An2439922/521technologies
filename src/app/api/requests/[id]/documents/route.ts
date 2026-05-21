@@ -21,19 +21,19 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       return NextResponse.json({ error: 'Invalid file type. Only PDF and DOC/DOCX are allowed.' }, { status: 400 });
     }
     
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    const { put } = await import('@vercel/blob');
     
     const filename = `${uuidv4()}${ext}`;
-    const relativePath = `/uploads/${filename}`;
-    const absolutePath = path.join(process.cwd(), 'public', 'uploads', filename);
     
-    await writeFile(absolutePath, buffer);
+    const blob = await put(filename, file, {
+      access: 'public',
+      addRandomSuffix: false
+    });
     
     const document = await prisma.document.create({
       data: {
         name: file.name,
-        path: relativePath,
+        path: blob.url,
         requestId,
       }
     });

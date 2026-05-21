@@ -17,8 +17,13 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     }
     
     try {
-      const filePath = path.join(process.cwd(), 'public', document.path);
-      await fs.unlink(filePath);
+      if (document.path.startsWith('https://')) {
+        const { del } = await import('@vercel/blob');
+        await del(document.path);
+      } else {
+        const filePath = path.join(process.cwd(), 'public', document.path);
+        await fs.unlink(filePath);
+      }
     } catch (e) {}
 
     await prisma.document.delete({

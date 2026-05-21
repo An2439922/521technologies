@@ -41,10 +41,16 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     });
     
     if (request && request.documents.length > 0) {
+      const { del } = await import('@vercel/blob');
       for (const doc of request.documents) {
         try {
-          const filePath = path.join(process.cwd(), 'public', doc.path);
-          await fs.unlink(filePath);
+          if (doc.path.startsWith('https://')) {
+            await del(doc.path);
+          } else {
+            // Фолбэк для старых локальных файлов
+            const filePath = path.join(process.cwd(), 'public', doc.path);
+            await fs.unlink(filePath);
+          }
         } catch (e) {}
       }
     }
